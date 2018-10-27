@@ -11,6 +11,7 @@
 
       body {
         margin: 0px;
+        overflow: hidden;
       }
 
       .bpm {
@@ -23,11 +24,18 @@
       }
       
       .button {
+        display: block;
+        width: 100%;
         font-family: verdana;
         font-size: 3vw;
         letter-spacing: 0.6vw;
         cursor: pointer;
         color: white;
+        border: none;
+      }
+
+      button:focus { 
+        outline: none; 
       }
 
       .tapTempo {
@@ -58,8 +66,8 @@
   <body>
 
     <div class="bpm">-</div>
-    <div class="button tapTempo" onclick="beatsPerMinute.show()">TAP TEMPO</div>
-    <div class="button reset" onclick="beatsPerMinute.reset()">RESET</div>
+    <button class="button tapTempo" onclick="beatsPerMinute.show()">TAP TEMPO</button>
+    <button class="button reset" onclick="beatsPerMinute.reset()">RESET</button>
 
     <script>
 
