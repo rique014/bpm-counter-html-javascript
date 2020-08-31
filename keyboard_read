@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>BPM Counter</title>
+    <style>
+      * {
+        text-align: center;
+        user-select: none;
+      }
+
+      body {
+        margin: 0px;
+        overflow: hidden;
+      }
+
+      .bpm {
+        color: rgb(49, 49, 49);
+        font-size: 14vw;
+        height: 40vh;
+        line-height: 40vh;
+        font-family: Arial, Helvetica, sans-serif;
+        background-image: radial-gradient(#FFFFFF, rgb(221, 220, 204));
+      }
+      
+      .button {
+        display: block;
+        width: 100%;
+        font-family: verdana;
+        font-size: 3vw;
+        letter-spacing: 0.6vw;
+        cursor: pointer;
+        color: white;
+        border: none;
+      }
+
+      button:focus { 
+        outline: none; 
+      }
+
+      .tapTempo {
+        background: rgb(47, 47, 47);
+        height: 40vh;
+        line-height: 40vh;
+        transition: background 0.2s;
+      }
+
+      .tapTempo:active {
+        background: rgb(41, 41, 41);
+      }
+
+      .reset {
+        background: rgb(220, 70, 66);
+        height: 20vh;
+        line-height: 20vh;
+        box-shadow: 7px 7px 50px rgb(210, 60, 56) inset;
+      }
+
+      .reset:active {
+        background: rgb(187, 58, 54);
+      }
+
+    </style>
+  </head>
+
+  <body>
+
+    <div class="bpm">-</div>
+    <button class="button tapTempo" onclick="beatsPerMinute.show()">TAP TEMPO</button>
+    <button class="button reset" onclick="beatsPerMinute.reset()">RESET</button>
+
+    <script>
+      // Read key
+      document.querySelector('body').addEventListener('keydown', function(event) {
+      beatsPerMinute.show();  
+        });
+
+      // BPM Counter
+      let prevTime = 0;
+      let countClicks = 0;
+      let currentTime = 0;
+      let bpm = 0;
+      let timeDifference = 0;
+      let bpmTotal = 0;
+      let bpmFinal = 0;
+
+      let beatsPerMinute = {
+        show: function() {
+          if (prevTime === 0) {
+            prevTime = Date.now();
+          } else if ((Date.now()-prevTime) > 2200) {
+            this.reset();
+          } else {
+            currentTime = Date.now();
+            timeDifference = currentTime - prevTime;
+            prevTime = currentTime;
+            bpm = 60 / timeDifference;
+            bpmTotal = bpmTotal + bpm;
+            countClicks++;
+            bpmFinal = (bpmTotal / countClicks) * 1000;
+
+            let result = document.querySelector('div');
+            result.innerHTML = bpmFinal.toFixed(0);
+          }
+        },
+        reset: function() {
+          prevTime = 0;
+          bpm = 0;
+          bpmTotal = 0;
+          bpmFinal = 0;
+          countClicks = 0;
+
+          let result = document.querySelector('div');
+	        result.innerHTML = '-';
+        }
+      }
+    </script>
+  </body>
+</html>
